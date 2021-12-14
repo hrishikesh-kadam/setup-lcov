@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    # 12 PM IST / 06:30 GMT every Sunday.
+    - cron: '30 6 * * 0'
+
+jobs:
+  test-setup-lcov:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup LCOV
+        uses: ./
+      - run: lcov --version
+        shell: bash
+      - run: lcov --version
+        shell: pwsh
+      - run: lcov --version
+        if: runner.os == 'Windows'
+        shell: cmd
+      - run: lcov --version
+        if: runner.os == 'Windows'
+        shell: powershell
