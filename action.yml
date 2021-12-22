@@ -1,6 +1,6 @@
 name: 'Setup LCOV'
 author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
-description: 'Composite GitHub Action to Setup LCOV.'
+description: 'Composite GitHub Action to setup LCOV.'
 
 runs:
   using: 'composite'
