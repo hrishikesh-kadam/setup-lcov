@@ -9,10 +9,13 @@ Linux - <br/>
 sudo apt-get -y install lcov
 
 macOS - <br/>
-brew install lcov
+brew install lcov <br/>
+https://formulae.brew.sh/formula/lcov
 
 Windows - <br/>
-choco install lcov
+choco install lcov <br/>
+https://community.chocolatey.org/packages/lcov <br/>
+https://github.com/jgonzalezdr/lcov
 
 
 # Usage
