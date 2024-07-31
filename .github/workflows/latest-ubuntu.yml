@@ -21,11 +21,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: linux-test-project/lcov
+      - run: sudo cpan App::cpanminus
       - run: |
-          sudo cpan \
+          sudo cpanm \
             Capture::Tiny \
             DateTime
       - run: ./bin/lcov --version
-      - run: make install
+      - run: sudo make install
       - run: type -a lcov
       - run: lcov --version
