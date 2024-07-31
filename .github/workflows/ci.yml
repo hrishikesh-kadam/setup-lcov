@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - latest/lcov
+      - latest-lcov
 
 jobs:
   test-setup-lcov:

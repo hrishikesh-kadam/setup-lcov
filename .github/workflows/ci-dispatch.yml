@@ -16,7 +16,7 @@ on:
           - windows-latest
   push:
     branches:
-      - latest/lcov
+      - latest-lcov
 
 jobs:
   test-setup-lcov:
