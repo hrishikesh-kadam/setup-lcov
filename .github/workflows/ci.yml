@@ -2,6 +2,9 @@ name: ci
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - latest/lcov
 
 jobs:
   test-setup-lcov:
