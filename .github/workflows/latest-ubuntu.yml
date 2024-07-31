@@ -23,7 +23,8 @@ jobs:
           repository: linux-test-project/lcov
       - run: sudo cpan App::cpanminus
       - run: |
-          sudo cpanm -Ti \
+          sudo cpanm \
+            --notest \
             Capture::Tiny \
             DateTime
       - run: ./bin/lcov --version
