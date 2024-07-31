@@ -9,18 +9,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ ubuntu-latest, macos-latest, windows-latest ]
+        runner: [ ubuntu-latest, ubuntu-24.04 ]
     steps:
       - uses: actions/checkout@v4
       - name: Setup LCOV
         uses: ./
       - run: lcov --version
-        shell: bash
+      - uses: actions/checkout@v4
+        with:
+          repository: linux-test-project/lcov
+      - run: ./bin/lcov --version
+      - run: make install
+      - run: type -a lcov
       - run: lcov --version
-        shell: pwsh
-      - run: lcov --version
-        if: runner.os == 'Windows'
-        shell: cmd
-      - run: lcov --version
-        if: runner.os == 'Windows'
-        shell: powershell

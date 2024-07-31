@@ -1,0 +1,3 @@
+# Author Notes
+
+- Add dependabot
