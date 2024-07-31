@@ -2,29 +2,18 @@ name: 'Setup LCOV'
 author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
 description: 'Composite GitHub Action to setup LCOV.'
 
+inputs:
+  install-head-version:
+    description: 'Install HEAD version of linux-test-project/lcov repository'
+    required: false
+    default: 'false'
+
 runs:
   using: 'composite'
   steps:
-    - name: Setup LCOV on ${{ runner.os }}
-      if: runner.os == 'Linux'
-      run: sudo apt-get -y install lcov
+    - name: Install LCOV
+      run: $GITHUB_ACTION_PATH/src/install-lcov.sh ${{ inputs.install-head-version }}
       shell: bash
-
-    - name: Setup LCOV on ${{ runner.os }}
-      if: runner.os == 'macOS'
-      run: brew install lcov
-      shell: bash
-
-    - name: Setup LCOV on ${{ runner.os }}
-      if: runner.os == 'Windows'
-      run: |
-        choco install lcov
-        # For bash
-        echo "C:\ProgramData\chocolatey\lib\lcov\tools\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-        # For pwsh, cmd and powershell
-        echo $env:GITHUB_ACTION_PATH
-        echo "$env:GITHUB_ACTION_PATH\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-      shell: pwsh
 
     - run: lcov --version
       shell: bash

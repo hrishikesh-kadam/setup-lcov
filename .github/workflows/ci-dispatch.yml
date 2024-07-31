@@ -1,19 +1,23 @@
-name: ci
+# Note: jobs of ci.yml and ci-dispatch.yml should be in sync
+name: ci-dispatch
 
 on:
   workflow_dispatch:
-
-jobs:
-  test-setup-lcov:
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        runner:
+    inputs:
+      runner:
+        description: 'Runner OS'
+        required: true
+        default: ubuntu-latest
+        type: choice
+        options:
           - ubuntu-latest
           - ubuntu-24.04
           - macos-latest
           - windows-latest
+
+jobs:
+  test-setup-lcov:
+    runs-on: ${{ inputs.runner }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup LCOV
