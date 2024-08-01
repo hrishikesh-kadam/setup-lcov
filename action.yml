@@ -3,16 +3,21 @@ author: 'Hrishikesh Kadam <hrkadam.92@gmail.com>'
 description: 'Composite GitHub Action to setup LCOV.'
 
 inputs:
-  install-head-version:
-    description: 'Install HEAD version of linux-test-project/lcov repository'
+  ref:
+    description: |
+      'Git reference like branch or tag of linux-test-project/lcov repository. '
+      'Use HEAD for the default branch. '
+      'Empty for stable versions.'
     required: false
-    default: 'false'
+    default: ''
 
 runs:
   using: 'composite'
   steps:
     - name: Install LCOV
-      run: $GITHUB_ACTION_PATH/src/install-lcov.sh ${{ inputs.install-head-version }}
+      run: |
+        $GITHUB_ACTION_PATH/src/install-lcov.sh \
+          ${{ inputs.ref }}
       shell: bash
 
     - run: lcov --version

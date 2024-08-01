@@ -8,6 +8,7 @@ on:
 
 jobs:
   test-setup-lcov:
+    name: ${{ matrix.runner }} ${{ matrix.ref }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -17,10 +18,22 @@ jobs:
           - ubuntu-24.04
           - macos-latest
           - windows-latest
+        include:
+          - runner: ubuntu-latest
+            ref: HEAD
+          - runner: ubuntu-latest
+            ref: v2.0
+          - runner: macos-latest
+            ref: HEAD
+          - runner: macos-latest
+            ref: v2.0
+
     steps:
       - uses: actions/checkout@v4
       - name: Setup LCOV
         uses: ./
+        with:
+          ref: ${{ matrix.ref }}
       - run: lcov --version
         shell: bash
       - run: lcov --version
