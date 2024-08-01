@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   push:
@@ -11,14 +11,19 @@ on:
     - cron: '30 6 * * 0'
 
 jobs:
-  test-setup-lcov:
+  without-arg:
+    name: ${{ matrix.runner }} ${{ matrix.ref }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        runner: [ ubuntu-latest, macos-latest, windows-latest ]
+        runner:
+          - ubuntu-latest
+          - ubuntu-24.04
+          - macos-latest
+          - windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup LCOV
         uses: ./
       - run: lcov --version
@@ -31,3 +36,48 @@ jobs:
       - run: lcov --version
         if: runner.os == 'Windows'
         shell: powershell
+
+  with-ref-tag:
+    name: ${{ matrix.runner }} ${{ matrix.ref }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-latest
+          - macos-latest
+        ref:
+          - v2.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup LCOV
+        uses: ./
+        with:
+          ref: ${{ matrix.ref }}
+      - run: lcov --version
+      - run: |
+          lcov --version \
+            | grep "lcov: LCOV version 2.0-1"
+
+  with-ref-head:
+    name: ${{ matrix.runner }} ${{ matrix.ref }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-latest
+          - ubuntu-24.04
+          - macos-latest
+        ref:
+          - HEAD
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup LCOV
+        uses: ./
+        with:
+          ref: ${{ matrix.ref }}
+      - run: lcov --version
+      - run: |
+          lcov --version \
+            | grep "lcov: LCOV version 2.*"

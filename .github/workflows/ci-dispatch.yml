@@ -1,0 +1,39 @@
+# Note: jobs of ci.yml and ci-dispatch.yml should be in sync
+name: ci-dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'Runner OS'
+        required: false
+        default: ubuntu-latest
+        type: string
+      ref:
+        description: |
+          'Git reference like branch or tag of linux-test-project/lcov repository. '
+          'Use HEAD for the default branch. '
+          'Empty for stable versions.'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  test-setup-lcov:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup LCOV
+        uses: ./
+        with:
+          ref: ${{ inputs.ref }}
+      - run: lcov --version
+        shell: bash
+      - run: lcov --version
+        shell: pwsh
+      - run: lcov --version
+        if: runner.os == 'Windows'
+        shell: cmd
+      - run: lcov --version
+        if: runner.os == 'Windows'
+        shell: powershell
