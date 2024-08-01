@@ -2,28 +2,70 @@
 
 Composite GitHub Action to setup [LCOV].
 
-
 # Setup sources
 
-Linux - <br/>
-sudo apt-get -y install lcov
+<table>
+  <tr>
+    <th>OS</th>
+    <th>Stable</th>
+    <th>HEAD</th>
+    <th>Tag / Branch</th>
+  </tr>
+  <tr>
+    <td>Linux</td>
+    <td>
+      <a href="https://launchpad.net/ubuntu/+source/lcov">apt-get</a>
+    </td>
+    <td colspan=2 align="center">make install</td>
+  </tr>
+  <tr>
+    <td>macOS</td>
+    <td colspan=2 align="center">
+      <a href="https://formulae.brew.sh/formula/lcov">brew</a>
+    </td>
+    <td>make install</td>
+  </tr>
+  <tr>
+    <td>Windows</td>
+    <td>
+      <a href="https://community.chocolatey.org/packages/lcov">choco</a>
+      <sup>1</sup>
+    </td>
+    <td>Not supported</td>
+    <td>Not supported</td>
+  </tr>
+</table>
 
-macOS - <br/>
-brew install lcov <br/>
-https://formulae.brew.sh/formula/lcov
-
-Windows - <br/>
-choco install lcov <br/>
-https://community.chocolatey.org/packages/lcov <br/>
-https://github.com/jgonzalezdr/lcov
-
+<sup>1</sup> choco lcov package version is outdated and on 1.15.alpha0w
 
 # Usage
+
+## Stable version
 
 ```yml
 steps:
   - name: Setup LCOV
     uses: hrishikesh-kadam/setup-lcov@v1
+```
+
+## HEAD of Default Branch of [LCOV]
+
+```yml
+steps:
+  - name: Setup LCOV
+    uses: hrishikesh-kadam/setup-lcov@v1
+    with:
+      - ref: HEAD
+```
+
+## Tag / Branch of [LCOV]
+
+```yml
+steps:
+  - name: Setup LCOV
+    uses: hrishikesh-kadam/setup-lcov@v1
+    with:
+      - ref: v2.1
 ```
 
 

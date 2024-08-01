@@ -42,13 +42,14 @@ make_install() {
   popd &> /dev/null
 }
 
-if [[ $(uname -s) =~ ^"Linux" ]]; then
+OS_NAME=$(uname -s)
+if [[ $OS_NAME =~ ^"Linux" ]]; then
   if [[ $REF == "" ]]; then
     sudo apt-get -y install lcov
   else
     make_install "$REF"
   fi
-elif [[ $(uname -s) =~ ^"Darwin" ]]; then
+elif [[ $OS_NAME =~ ^"Darwin" ]]; then
   if [[ $REF == "" ]]; then
     brew install lcov
   elif [[ $REF == "HEAD" ]]; then
@@ -56,7 +57,7 @@ elif [[ $(uname -s) =~ ^"Darwin" ]]; then
   else
     make_install "$REF"
   fi
-elif [[ $(uname -s) =~ ^"MINGW" ]]; then
+elif [[ $OS_NAME =~ ^"MINGW" ]]; then
   choco install lcov
   if [[ $GITHUB_ACTIONS == "true" ]]; then
     # For bash
@@ -68,6 +69,6 @@ elif [[ $(uname -s) =~ ^"MINGW" ]]; then
     echo "$GITHUB_ACTION_PATH\bin" >> "$GITHUB_PATH"
   fi
 else
-  echo "Unknown OS: $(uname -s)"
+  echo "Unknown OS: $OS_NAME"
   exit 1
 fi

@@ -7,7 +7,7 @@ on:
       - latest-lcov
 
 jobs:
-  test-setup-lcov:
+  without-arg:
     name: ${{ matrix.runner }} ${{ matrix.ref }}
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -33,7 +33,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
 
-  test-setup-lcov-with-ref-tag:
+  with-ref-tag:
     name: ${{ matrix.runner }} ${{ matrix.ref }}
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -55,7 +55,7 @@ jobs:
           lcov --version \
             | grep "lcov: LCOV version 2.0-1"
 
-  test-setup-lcov-with-ref-head:
+  with-ref-head:
     name: ${{ matrix.runner }} ${{ matrix.ref }}
     runs-on: ${{ matrix.runner }}
     strategy:
