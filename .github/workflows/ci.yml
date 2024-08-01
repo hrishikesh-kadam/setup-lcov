@@ -18,7 +18,6 @@ jobs:
           - ubuntu-24.04
           - macos-latest
           - windows-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Setup LCOV
@@ -34,24 +33,17 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
 
-  test-setup-lcov-with-ref:
+  test-setup-lcov-with-ref-tag:
     name: ${{ matrix.runner }} ${{ matrix.ref }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: ubuntu-latest
-            ref: HEAD
-          - runner: ubuntu-latest
-            ref: v2.0
-          - runner: ubuntu-24.04
-            ref: HEAD
-          - runner: macos-latest
-            ref: HEAD
-          - runner: macos-latest
-            ref: v2.0
-
+        runner:
+          - ubuntu-latest
+          - macos-latest
+        ref:
+          - v2.0
     steps:
       - uses: actions/checkout@v4
       - name: Setup LCOV
@@ -59,12 +51,29 @@ jobs:
         with:
           ref: ${{ matrix.ref }}
       - run: lcov --version
-        shell: bash
+      - run: |
+          lcov --version \
+            | grep "lcov: LCOV version 2.0-1"
+
+  test-setup-lcov-with-ref-head:
+    name: ${{ matrix.runner }} ${{ matrix.ref }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          - ubuntu-latest
+          - ubuntu-24.04
+          - macos-latest
+        ref:
+          - HEAD
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup LCOV
+        uses: ./
+        with:
+          ref: ${{ matrix.ref }}
       - run: lcov --version
-        shell: pwsh
-      - run: lcov --version
-        if: runner.os == 'Windows'
-        shell: cmd
-      - run: lcov --version
-        if: runner.os == 'Windows'
-        shell: powershell
+      - run: |
+          lcov --version \
+            | grep "lcov: LCOV version 2.*"
