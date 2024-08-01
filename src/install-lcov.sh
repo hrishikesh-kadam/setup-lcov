@@ -18,18 +18,22 @@ make_install() {
   REF=$1
   # https://github.com/linux-test-project/lcov/blob/d465f73117ac3b66e9f6d172346ae18fcfaf0f69/README#L116-L162
   # https://www.cpan.org/modules/INSTALL.html
-  sudo cpan App::cpanminus
+  if [[ $(uname -s) =~ ^"Darwin" ]]; then
+    brew install cpanm
+  else
+    sudo cpan App::cpanminus
+  fi
   sudo cpanm \
     --notest \
     Capture::Tiny \
     DateTime
   LCOV_DIR="/tmp/lcov"
-  BRANCH_ARG=""
+  BRANCH_ARG=()
   if [[ $REF != "HEAD" ]]; then
-    BRANCH_ARG="--branch $REF"
+    BRANCH_ARG=(--branch "$REF")
   fi
   git clone \
-    "$BRANCH_ARG" \
+    "${BRANCH_ARG[@]}" \
     --depth 1 \
     https://github.com/linux-test-project/lcov.git \
     $LCOV_DIR
