@@ -13,12 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner:
-          - ubuntu-latest
-          - ubuntu-24.04
-          - macos-latest
-          - windows-latest
         include:
+          - runner: ubuntu-latest
+          - runner: ubuntu-24.04
+          - runner: macos-latest
+          - runner: windows-latest
           - runner: ubuntu-latest
             ref: HEAD
           - runner: ubuntu-latest

@@ -14,9 +14,6 @@ on:
           - ubuntu-24.04
           - macos-latest
           - windows-latest
-  push:
-    branches:
-      - latest-lcov
 
 jobs:
   test-setup-lcov:

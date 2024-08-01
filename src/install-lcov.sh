@@ -9,6 +9,35 @@ set -e -o pipefail
 
 REF=$1
 
+#######################################
+# Arguments:
+#   $1 REF Git reference like branch or tag of linux-test-project/lcov repository. 
+#      Use HEAD for the default branch.
+#######################################
+make_install() {
+  REF=$1
+  # https://github.com/linux-test-project/lcov/blob/d465f73117ac3b66e9f6d172346ae18fcfaf0f69/README#L116-L162
+  # https://www.cpan.org/modules/INSTALL.html
+  sudo cpan App::cpanminus
+  sudo cpanm \
+    --notest \
+    Capture::Tiny \
+    DateTime
+  LCOV_DIR="/tmp/lcov"
+  BRANCH_ARG=""
+  if [[ $REF != "HEAD" ]]; then
+    BRANCH_ARG="--branch $REF"
+  fi
+  git clone \
+    "$BRANCH_ARG" \
+    --depth 1 \
+    https://github.com/linux-test-project/lcov.git \
+    $LCOV_DIR
+  pushd $LCOV_DIR &> /dev/null
+  sudo make install
+  popd &> /dev/null
+}
+
 if [[ $(uname -s) =~ ^"Linux" ]]; then
   if [[ $REF == "" ]]; then
     sudo apt-get -y install lcov
@@ -38,32 +67,3 @@ else
   echo "Unknown OS: $(uname -s)"
   exit 1
 fi
-
-#######################################
-# Arguments:
-#   $1 REF Git reference like branch or tag of linux-test-project/lcov repository. 
-#      Use HEAD for the default branch.
-#######################################
-make_install() {
-  REF=$1
-  # https://github.com/linux-test-project/lcov/blob/d465f73117ac3b66e9f6d172346ae18fcfaf0f69/README#L116-L162
-  # https://www.cpan.org/modules/INSTALL.html
-  sudo cpan App::cpanminus
-  sudo cpanm \
-    --notest \
-    Capture::Tiny \
-    DateTime
-  LCOV_DIR="/tmp/lcov"
-  BRANCH_ARG=""
-  if [[ $REF != "HEAD" ]]; then
-    BRANCH_ARG="--branch $REF"
-  fi
-  git clone \
-    "$BRANCH_ARG" \
-    --depth 1 \
-    https://github.com/linux-test-project/lcov.git \
-    $LCOV_DIR
-  pushd $LCOV_DIR &> /dev/null
-  sudo make install
-  popd &> /dev/null
-}
