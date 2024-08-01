@@ -1,10 +1,14 @@
 name: ci
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - latest-lcov
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    # 12:00 PM IST / 6:30 AM GMT every Sunday.
+    - cron: '30 6 * * 0'
 
 jobs:
   without-arg:

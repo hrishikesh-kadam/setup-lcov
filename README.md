@@ -55,7 +55,7 @@ steps:
   - name: Setup LCOV
     uses: hrishikesh-kadam/setup-lcov@v1
     with:
-      - ref: HEAD
+      ref: HEAD
 ```
 
 ## Tag / Branch of [LCOV]
@@ -65,7 +65,7 @@ steps:
   - name: Setup LCOV
     uses: hrishikesh-kadam/setup-lcov@v1
     with:
-      - ref: v2.1
+      ref: v2.1
 ```
 
 
