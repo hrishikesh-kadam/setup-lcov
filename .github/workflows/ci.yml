@@ -15,12 +15,17 @@ jobs:
       matrix:
         include:
           - runner: ubuntu-latest
+          - runner: ubuntu-22.04
           - runner: ubuntu-24.04
           - runner: macos-latest
           - runner: windows-latest
           - runner: ubuntu-latest
             ref: HEAD
           - runner: ubuntu-latest
+            ref: v2.0
+          - runner: ubuntu-24.04
+            ref: HEAD
+          - runner: ubuntu-24.04
             ref: v2.0
           - runner: macos-latest
             ref: HEAD
