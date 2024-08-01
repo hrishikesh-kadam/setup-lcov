@@ -59,14 +59,20 @@ elif [[ $OS_NAME =~ ^"Darwin" ]]; then
   fi
 elif [[ $OS_NAME =~ ^"MINGW" ]]; then
   choco install lcov
-  if [[ $GITHUB_ACTIONS == "true" ]]; then
-    # For bash
-    # shellcheck disable=SC2028,SC2154
-    echo "$ChocolateyInstall\lib\lcov\tools\bin" >> "$GITHUB_PATH"
-    # For pwsh, cmd and powershell
-    echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
-    # shellcheck disable=SC2028
-    echo "$GITHUB_ACTION_PATH\bin" >> "$GITHUB_PATH"
+  : "${ChocolateyInstall:=C:\ProgramData\chocolatey}"
+  LCOV_ROOT_WIN="$ChocolateyInstall\lib\lcov\tools\bin"
+  LCOV_ROOT_NIX=$(cygpath "$LCOV_ROOT_WIN")
+  if [[ ! $PATH =~ $LCOV_ROOT_NIX ]]; then
+    if [[ $GITHUB_ACTIONS == "true" ]]; then
+      echo "$LCOV_ROOT_WIN" >> "$GITHUB_PATH"
+      PATH="$LCOV_ROOT_NIX:$PATH"
+      # For pwsh, cmd and powershell
+      # shellcheck disable=SC2028
+      echo "$GITHUB_ACTION_PATH\bin" >> "$GITHUB_PATH"
+    else
+      # Deliberately avoiding to set PATH by setx command
+      echo "$LCOV_ROOT_NIX directory not found on PATH"
+    fi
   fi
 else
   echo "Unknown OS: $OS_NAME"
