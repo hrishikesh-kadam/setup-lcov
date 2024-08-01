@@ -13,20 +13,40 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        runner:
+          - ubuntu-latest
+          - ubuntu-24.04
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup LCOV
+        uses: ./
+      - run: lcov --version
+        shell: bash
+      - run: lcov --version
+        shell: pwsh
+      - run: lcov --version
+        if: runner.os == 'Windows'
+        shell: cmd
+      - run: lcov --version
+        if: runner.os == 'Windows'
+        shell: powershell
+
+  test-setup-lcov-with-ref:
+    name: ${{ matrix.runner }} ${{ matrix.ref }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
         include:
           - runner: ubuntu-latest
-          - runner: ubuntu-22.04
-          - runner: ubuntu-24.04
-          - runner: macos-latest
-          - runner: windows-latest
-          - runner: ubuntu-latest
             ref: HEAD
           - runner: ubuntu-latest
             ref: v2.0
           - runner: ubuntu-24.04
             ref: HEAD
-          - runner: ubuntu-24.04
-            ref: v2.0
           - runner: macos-latest
             ref: HEAD
           - runner: macos-latest
