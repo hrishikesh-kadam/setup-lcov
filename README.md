@@ -31,8 +31,7 @@ Composite GitHub Action to setup [LCOV].
       <a href="https://community.chocolatey.org/packages/lcov">choco</a>
       <sup>1</sup>
     </td>
-    <td>Not supported</td>
-    <td>Not supported</td>
+    <td colspan=2 align="center">Not supported</td>
   </tr>
 </table>
 
