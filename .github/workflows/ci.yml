@@ -23,7 +23,7 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup LCOV
         uses: ./
       - run: lcov --version
@@ -49,7 +49,7 @@ jobs:
         ref:
           - v2.0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup LCOV
         uses: ./
         with:
@@ -72,7 +72,7 @@ jobs:
         ref:
           - HEAD
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup LCOV
         uses: ./
         with:

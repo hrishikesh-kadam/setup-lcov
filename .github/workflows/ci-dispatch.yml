@@ -22,7 +22,7 @@ jobs:
   test-setup-lcov:
     runs-on: ${{ inputs.runner }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup LCOV
         uses: ./
         with:
